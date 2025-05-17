@@ -39,4 +39,7 @@ curl -X POST http://localhost:3000/estimate \
         "data":"0xd0e30db0"}' 
 ```
 
+### Online demo
+
+Demo service is available at url: https://mstrugestimator.nfshost.com/.
 
