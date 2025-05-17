@@ -27,6 +27,10 @@ It is possible to provide custom configuration by creating `gas_estimator.cfg` f
 
 ### Using `/estimate` API
 
+`/estimate` endpoint takes 5 parameters which defines transaction in a JSON format in POST body: `from`, `to`, `value`, `data`, `block`. Not all parameters are mandatory.
+
+Example API call by `curl`:
+
 ```
 curl -X POST http://localhost:3000/estimate \
   -H "Content-Type: application/json" \
