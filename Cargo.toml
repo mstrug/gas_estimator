@@ -14,4 +14,5 @@ tokio = { version = "1.45.0", features = ["full"] }
 tracing-subscriber = "0.3.19"
 url = { version = "2", features = ["serde"] }
 tower_governor = { version = "0.7", features = ["axum"] }
+thiserror = "2.0.12"
 

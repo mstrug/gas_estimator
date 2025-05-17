@@ -1,9 +1,7 @@
 /// This file contains definition of the API endpoints data model and function handlers.
-
 use crate::{app::App, domain_data_model};
 use axum::{Json, extract::State, http::StatusCode, response::Html};
 use serde::{Deserialize, Deserializer};
-
 
 #[derive(Deserialize, Debug)]
 /// Json body message for /estimate endpoint.
@@ -68,17 +66,15 @@ pub async fn estimate(
 
     match state.estimate_gas(payload.into()).await {
         Ok(val) => (StatusCode::OK, val.to_string()),
-        Err(e) => (StatusCode::BAD_REQUEST, e),
+        Err(e) => (StatusCode::BAD_REQUEST, e.to_string()),
     }
 }
-
 
 /// Root endpoint handler - serves simple html website
 pub async fn root() -> Html<&'static str> {
     log::info!("Requested root");
     Html::from(include_str!("html/main.html"))
 }
-
 
 /// /version endpoint handler
 pub async fn version() -> &'static str {
