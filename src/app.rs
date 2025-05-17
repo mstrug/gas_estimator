@@ -1,12 +1,18 @@
+/// This file contains Applicatino state and logic.
+
 use crate::{config::Config, domain_data_model, rpc_data_model};
+
 
 #[derive(Clone)]
 pub struct App {
+    /// HTTP client used for RPC node API calls
     http_client: reqwest::Client,
+    /// Configuration used
     config: Config,
 }
 
 impl App {
+    /// Create new instance of the application
     pub fn new() -> Self {
         Self {
             http_client: reqwest::Client::new(),
@@ -14,6 +20,7 @@ impl App {
         }
     }
 
+    /// Returns server binding address
     pub fn get_bind_address(&self) -> String {
         self.config
             .bind_addr
@@ -21,6 +28,7 @@ impl App {
             .unwrap_or(String::from("0.0.0.0:3000"))
     }
 
+    /// Handles gas estimation calls
     pub async fn estimate_gas(
         &self,
         params: domain_data_model::EstimateGas,
@@ -49,6 +57,7 @@ impl App {
         }
     }
 
+    /// Returns application version
     pub fn version() -> &'static str {
         env!("CARGO_PKG_VERSION")
     }

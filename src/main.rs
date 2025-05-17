@@ -1,24 +1,21 @@
-use axum::http::Response;
 use axum::{
+    http::Response,
     Router,
     routing::{get, post},
 };
-use std::net::SocketAddr;
-use std::sync::Arc;
-use std::time::Duration;
+use std::{net::SocketAddr, sync::Arc, time::Duration};
 use tower_governor::{GovernorLayer, governor::GovernorConfigBuilder};
 
 mod app;
-use crate::app::App;
-
 mod api;
 mod config;
 mod domain_data_model;
 mod rpc_data_model;
 
+
 #[tokio::main]
 async fn main() {
-    // initialize tracing and logging
+    // Initialize tracing and logging
     tracing_subscriber::fmt::init();
 
     log::info!("App starting");
@@ -26,9 +23,7 @@ async fn main() {
     // Setup rate limitter
     let governor_conf = Arc::new(
         GovernorConfigBuilder::default()
-            .error_handler(|error| match error {
-                _ => Response::new("Wait at least 1 second.".into()),
-            })
+            .error_handler(|_error| Response::new("Wait at least 1 second.".into()))
             .burst_size(5)
             .per_second(1)
             .finish()
@@ -46,9 +41,11 @@ async fn main() {
         }
     });
 
-    let app = App::new();
+    // Create application state
+    let app = app::App::new();
     let bind_addr = app.get_bind_address();
 
+    // Setup API call routes
     let routes = Router::new()
         .route("/", get(api::root))
         .route("/version", get(api::version))
@@ -62,6 +59,7 @@ async fn main() {
 
     log::info!("App started on http://{}/", bind_addr);
 
+    // Start server
     axum::serve(
         listener,
         routes.into_make_service_with_connect_info::<SocketAddr>(),

@@ -1,17 +1,9 @@
-use crate::{App, domain_data_model};
+/// This file contains definition of the API endpoints data model and function handlers.
+
+use crate::{app::App, domain_data_model};
 use axum::{Json, extract::State, http::StatusCode, response::Html};
-use serde::Deserialize;
-use serde::Deserializer;
+use serde::{Deserialize, Deserializer};
 
-pub async fn root() -> Html<&'static str> {
-    log::info!("Requested root");
-    Html::from(include_str!("html/main.html"))
-}
-
-pub async fn version() -> &'static str {
-    log::info!("Requested version");
-    App::version()
-}
 
 #[derive(Deserialize, Debug)]
 /// Json body message for /estimate endpoint.
@@ -45,11 +37,16 @@ pub struct EstimateInputData {
     #[serde(deserialize_with = "non_empty_str")]
     block: Option<String>,
 }
+
+/// Used for handling conversion of empty json strings to None value
 fn non_empty_str<'de, D: Deserializer<'de>>(d: D) -> Result<Option<String>, D::Error> {
     use serde::Deserialize;
     let o: Option<String> = Option::deserialize(d)?;
     Ok(o.filter(|s| !s.is_empty()))
 }
+
+#[allow(clippy::from_over_into)]
+/// Converting EstimateGas into the domain data model
 impl Into<domain_data_model::EstimateGas> for EstimateInputData {
     fn into(self) -> domain_data_model::EstimateGas {
         domain_data_model::EstimateGas {
@@ -62,6 +59,7 @@ impl Into<domain_data_model::EstimateGas> for EstimateInputData {
     }
 }
 
+/// /estimate endpoint handler
 pub async fn estimate(
     State(state): State<App>,
     Json(payload): Json<EstimateInputData>,
@@ -72,4 +70,18 @@ pub async fn estimate(
         Ok(val) => (StatusCode::OK, val.to_string()),
         Err(e) => (StatusCode::BAD_REQUEST, e),
     }
+}
+
+
+/// Root endpoint handler - serves simple html website
+pub async fn root() -> Html<&'static str> {
+    log::info!("Requested root");
+    Html::from(include_str!("html/main.html"))
+}
+
+
+/// /version endpoint handler
+pub async fn version() -> &'static str {
+    log::info!("Requested version");
+    App::version()
 }
