@@ -53,7 +53,7 @@
                         hx-post="/estimate"
                         hx-ext="json-enc"
                         hx-target-error="#any-errors"
-                        hx-disabled-elt="find input[type='text'], find button"
+                        hx-disabled-elt="find #i1, find #i2, find #i3, find #i4, find #i5, find button"
                         hx-on::after-request="showResponse()"
                     >
                         <div class="field">
@@ -63,7 +63,7 @@
                             <div class="field-label is-medium"><label class="label ">From:</label></div>
                             <div class="field-body"><div class="field">
                                 <div class="control is-expanded">
-                                    <input class="input is-medium" type="text" placeholder="0xabc1234567890abc1234567890abc1234567890f" name="from" value=""/>
+                                    <input id="i1" class="input is-medium" type="text" placeholder="0xabc1234567890abc1234567890abc1234567890f" name="from" value=""/>
                                 </div>
                             </div></div>
                         </div>
@@ -71,7 +71,7 @@
                             <div class="field-label is-medium"><label class="label ">To:</label></div>
                             <div class="field-body"><div class="field">
                                 <div class="control is-expanded">
-                                    <input class="input is-medium" type="text" placeholder="0x1234567890abc1234567890abc1234567890fabc" name="to" value="" required/>
+                                    <input id="i2" class="input is-medium" type="text" placeholder="0x1234567890abc1234567890abc1234567890fabc" name="to" value="" required/>
                                 </div>
                             </div></div>
                         </div>
@@ -79,7 +79,7 @@
                             <div class="field-label is-medium"><label class="label ">Value:</label></div>
                             <div class="field-body"><div class="field">
                                 <div class="control is-expanded">
-                                    <input class="input is-medium" type="text" placeholder="0x1" name="value" value=""/>
+                                    <input id="i3" class="input is-medium" type="text" placeholder="0x1" name="value" value=""/>
                                 </div>
                             </div></div>
                         </div>
@@ -87,7 +87,7 @@
                             <div class="field-label is-medium"><label class="label ">Data:</label></div>
                             <div class="field-body"><div class="field">
                                 <div class="control is-expanded">
-                                    <input class="input is-medium" type="text" placeholder="0xd0e30db0" name="data" value=""/>
+                                    <input id="i4" class="input is-medium" type="text" placeholder="0xd0e30db0" name="data" value=""/>
                                 </div>
                             </div></div>
                         </div>
@@ -95,7 +95,7 @@
                             <div class="field-label is-medium"><label class="label ">Block:</label></div>
                             <div class="field-body"><div class="field">
                                 <div class="control is-expanded">
-                                    <input class="input is-medium" type="text" placeholder="latest" name="block" value=""/>
+                                    <input id="i5" class="input is-medium" type="text" placeholder="latest" name="block" value=""/>
                                 </div>
                             </div></div>
                         </div>
